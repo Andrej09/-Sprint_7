@@ -1,8 +1,11 @@
 package org.example;
 
-public class CourierGenerator {
+import org.apache.commons.lang3.RandomStringUtils;
 
-    public Courier generic(){
-        return new Courier("logan","321","xman");
+public class CourierGenerator {
+    public Courier random(){
+        return new Courier(RandomStringUtils.randomAlphabetic(10),
+                           RandomStringUtils.randomAlphabetic(10),
+                           RandomStringUtils.randomAlphabetic(10));
     }
 }

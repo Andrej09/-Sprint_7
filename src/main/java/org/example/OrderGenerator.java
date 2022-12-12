@@ -1,5 +1,10 @@
 package org.example;
 
+import io.restassured.http.ContentType;
+import io.restassured.response.ValidatableResponse;
+
+import static io.restassured.RestAssured.given;
+
 public class OrderGenerator{
 
     public CreatingOrder creatingOrder(){
@@ -13,5 +18,15 @@ public class OrderGenerator{
                 "2020-06-06",
                 "Saske, come back to Konoha",
                 null);
+    }
+
+    public ValidatableResponse colorSelection(CreatingOrder order){
+        return given()
+                .contentType(ContentType.JSON)
+                .body(order)
+                .when()
+                .post("/api/v1/orders")
+                .then().statusCode(201)
+                .log().all();
     }
 }

@@ -24,7 +24,7 @@ public class CourierClient {
     }
 
     public ValidatableResponse delete(int courierId){
-        String json = String.format("{\"id\": \"%d\"}", courierId);
+        DeleteId json = new DeleteId(courierId);
         return given()
                 .contentType(ContentType.JSON)
                 .body(json)
@@ -37,7 +37,8 @@ public class CourierClient {
         return given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/v1/orders?courierId=" + courierId)
+                .queryParam("?courierId=" + courierId)
+                .get("/api/v1/orders")
                 .then().log().all();
     }
 

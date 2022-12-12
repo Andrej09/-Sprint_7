@@ -18,9 +18,9 @@ public class CouirerLoginTest {
 
     @Test
     @DisplayName("1)курьер может авторизоваться, " +
-            "2)успешный запрос возвращает id")
+                 "2)успешный запрос возвращает id")
     public void authorizationVerification(){
-        var courier = new CourierGenerator().generic();
+        var courier = new CourierGenerator().random();
         client.create(courier);
         int courierId = client.login(courier)
                 .statusCode(200).body("id", notNullValue())
@@ -31,7 +31,7 @@ public class CouirerLoginTest {
     @Test
     @DisplayName("если какого-то поля нет, запрос возвращает ошибку")
     public void authorizationVerificationNoRequiredFields(){
-        var courier = new CourierGenerator().generic();
+        var courier = new CourierGenerator().random();
         courier.setLogin(null);
         client.login(courier)
                 .statusCode(400)
@@ -41,9 +41,9 @@ public class CouirerLoginTest {
 
     @Test
     @DisplayName("1)система вернёт ошибку, если неправильно указать логин или пароль," +
-            "2)если авторизоваться под несуществующим пользователем, запрос возвращает ошибку")
+                 "2)если авторизоваться под несуществующим пользователем, запрос возвращает ошибку")
     public void authorizationVerificationNoUser() {
-        var courier = new CourierGenerator().generic();
+        var courier = new CourierGenerator().random();
         courier.setLogin("logon");
         client.login(courier)
                 .statusCode(404)
