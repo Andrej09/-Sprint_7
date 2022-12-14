@@ -1,7 +1,8 @@
-package org.example;
+package org.example.courier;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
+
 import static io.restassured.RestAssured.given;
 
 public class CourierClient {

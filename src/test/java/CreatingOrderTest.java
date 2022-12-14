@@ -1,7 +1,6 @@
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
-import org.example.OrderGenerator;
+import org.example.order.OrderGenerator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,7 +8,6 @@ import org.junit.runners.Parameterized;
 
 import java.util.List;
 
-import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.greaterThan;
 
 @RunWith(Parameterized.class)
@@ -45,6 +43,6 @@ public class CreatingOrderTest{
     public void checkOrderGenerator() {
         var order = new OrderGenerator().creatingOrder();
         order.setColor(color);
-        orderGenerator.colorSelection(order).body("track", greaterThan(0));
+        orderGenerator.colorSelection(order).body("track", greaterThan(0)).extract().path("track");
     }
 }

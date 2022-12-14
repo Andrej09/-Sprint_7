@@ -1,7 +1,8 @@
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
-import org.example.CourierClient;
-import org.example.CourierGenerator;
+import org.example.courier.CourierClient;
+import org.example.courier.CourierGenerator;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,10 +11,16 @@ import static org.hamcrest.Matchers.*;
 public class CouirerLoginTest {
 
     private final CourierClient client = new CourierClient();
-
+    private int courierId;
     @Before
     public void setUp() {
         RestAssured.baseURI = "http://qa-scooter.praktikum-services.ru/";
+    }
+    @After
+    public void courierDelete() {
+        if (courierId > 0) {
+            client.delete(courierId).statusCode(200);
+        }
     }
 
     @Test
@@ -22,10 +29,9 @@ public class CouirerLoginTest {
     public void authorizationVerification(){
         var courier = new CourierGenerator().random();
         client.create(courier);
-        int courierId = client.login(courier)
+        courierId = client.login(courier)
                 .statusCode(200).body("id", notNullValue())
                 .log().all().extract().path("id");
-        client.delete(courierId);
     }
 
     @Test

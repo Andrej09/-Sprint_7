@@ -1,7 +1,8 @@
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
-import org.example.CourierClient;
-import org.example.CourierGenerator;
+import org.example.courier.CourierClient;
+import org.example.courier.CourierGenerator;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,9 +12,18 @@ public class CreatingCourierTest {
 
     private final CourierClient client = new CourierClient();
 
+    private int courierId;
+
     @Before
     public void setUp() {
         RestAssured.baseURI = "http://qa-scooter.praktikum-services.ru/";
+    }
+
+    @After
+    public void courierDelete() {
+        if (courierId > 0) {
+            client.delete(courierId).statusCode(200);
+        }
     }
 
     @Test
@@ -25,9 +35,7 @@ public class CreatingCourierTest {
         client.create(courier)
                 .statusCode(201)
                 .assertThat().body("ok", is(true));
-        int courierId = client.login(courier)
-                .log().all().extract().path("id");
-        client.delete(courierId);
+        courierId = client.login(courier).log().all().extract().path("id");
     }
 
     @Test
@@ -38,9 +46,7 @@ public class CreatingCourierTest {
         client.create(courier);
         client.create(courier)
                 .assertThat().statusCode(409).body("message", equalTo("Этот логин уже используется. Попробуйте другой."));
-        int courierId = client.login(courier)
-                .log().all().extract().path("id");
-        client.delete(courierId);
+        courierId = client.login(courier).log().all().extract().path("id");
     }
 
     @Test

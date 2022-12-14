@@ -1,4 +1,4 @@
-package org.example;
+package org.example.order;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
@@ -29,4 +29,6 @@ public class OrderGenerator{
                 .then().statusCode(201)
                 .log().all();
     }
+
+
 }

@@ -1,6 +1,7 @@
-package org.example;
+package org.example.courier;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.example.courier.Courier;
 
 public class CourierGenerator {
     public Courier random(){
